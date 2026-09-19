@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBR | متجر شحن الألعاب</title>
+  <style>
+    :root {
+      --bg-color: #0b0719;
+      --card-bg: #160d33;
+      --accent-purple: #7b2cbf;
+      --accent-blue: #00f3ff;
+      --accent-red: #ff0055;
+      --text-color: #ffffff;
+      --text-dim: #a39bbe;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(45deg, var(--accent-red), var(--accent-purple), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(123, 44, 191, 0.5);
+    }
+
+    .tagline {
+      color: var(--accent-blue);
+      font-size: 1.1rem;
+      margin-top: 5px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(123, 44, 191, 0.3);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    h2 {
+      color: var(--accent-blue);
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--accent-purple);
+      padding-bottom: 10px;
+    }
+
+    /* اختيار اللعبة */
+    .games-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .game-option {
+      background: #0d0722;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .game-option.active, .game-option:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+    }
+
+    .game-option h3 {
+      margin-top: 10px;
+      font-size: 1.2rem;
+    }
+
+    /* النموذج */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-dim);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      background: #0d0722;
+      border: 1px solid var(--accent-purple);
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .payment-info {
+      background: rgba(255, 0, 85, 0.1);
+      border: 1px dashed var(--accent-red);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(45deg, var(--accent-purple), var(--accent-red));
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-submit:hover {
+      box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
+    }
+
+    /* لوحة الأدمن والإشعارات */
+    .admin-section {
+      margin-top: 40px;
+      border: 2px solid var(--accent-red);
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      background: var(--accent-red);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .order-card {
+      background: #0d0722;
+      border-right: 4px solid var(--accent-blue);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .order-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      font-size: 0.95rem;
+    }
+
+    .btn-copy {
+      background: var(--accent-purple);
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      margin-right: 5px;
+    }
+
+    .img-preview {
+      max-width: 150px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid var(--accent-blue);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn-status {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-complete { background: #00e676; color: black; }
+    .btn-reject { background: var(--accent-red); color: white; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">OBR</div>
+    <div class="tagline">متجر شحن جميع الألعاب السريع والموثوق</div>
+  </header>
+
+  <div class="container">
+    
+    <!-- واجهة الشراء للعملاء -->
+    <div class="card">
+      <h2>طلب شحن جديد</h2>
+
+      <!-- اختيار اللعبة -->
+      <label>1. اختر اللعبة:</label>
+      <div class="games-grid">
+        <div class="game-option active" id="opt-ff" onclick="selectGame('Free Fire')">
+          🔥 <h3>فري فاير (Free Fire)</h3>
+        </div>
+        <div class="game-option" id="opt-pubg" onclick="selectGame('PUBG Mobile')">
+          🪂 <h3>ببجي (PUBG Mobile)</h3>
+        </div>
+      </div>
+
+      <form id="orderForm" onsubmit="handleOrderSubmit(event)">
+        <!-- معرف اللاعب -->
+        <div class="form-group">
+          <label for="playerId">2. معرف اللاعب (Player ID / UID):</label>
+          <input type="text" id="playerId" placeholder="مثال: 123456789" required>
+        </div>
+
+        <!-- الباقة -->
+        <div class="form-group">
+          <label for="packageSelect">3. اختر الباقة:</label>
+          <select id="packageSelect" required>
+            <!-- يتم التحديث بالسوفتوير -->
+          </select>
+        </div>
+
+        <!-- تعليمات الدفع (شام كاش) -->
+        <div class="payment-info">
+          💳 <strong>طريقة الدفع عبر شام كاش (Sham Cash):</strong><br>
+          يرجى تحويل المبلغ الموضح إلى المعرف/الرقم: <strong style="color:var(--accent-blue)">SHAM-OBR-102030</strong><br>
+          ثم أرفق صورة إشعار التحويل بالأسفل للتأكيد.
+        </div>
+
+        <!-- اسم المشتري ورقم الهاتف -->
+        <div class="form-group">
+          <label for="customerName">اسمك الكامل:</label>
+          <input type="text" id="customerName" placeholder="أدخل اسمك" required>
+        </div>
+
+        <!-- رفع صورة الإيصال -->
+        <div class="form-group">
+          <label for="receiptImg">4. إرفاق صورة إيصال التحويل:</label>
+          <input type="file" id="receiptImg" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn-submit">تأكيد وإرسال الطلب 🚀</button>
+      </form>
+    </div>
+
+    <!-- لوحة التحكم والإشعارات (الأدمن) -->
+    <div class="card admin-section">
+      <div class="admin-header">
+        <h2 style="margin:0; border:none;">🔔 لوحة الإشعارات والطلبات (خاصة بك)</h2>
+        <span class="badge" id="orderCount">0 طلبات جديدة</span>
+      </div>
+
+      <div id="ordersContainer">
+        <p style="color: var(--text-dim); text-align: center;">لا توجد طلبات حالياً...</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let selectedGame = 'Free Fire';
+
+    const packages = {
+      'Free Fire': [
+        '100 جوهرة + بونص — 1.00$',
+        '210 جواهر + بونص — 2.00$',
+        '530 جوهرة + بونص — 5.00$',
+        '1080 جوهرة + بونص — 10.00$',
+        'العضوية الأسبوعية — 2.20$',
+        'العضوية الشهرية — 10.00$'
+      ],
+      'PUBG Mobile': [
+        '60 شدة (UC) — 1.00$',
+        '325 شدة (UC) — 5.00$',
+        '660 شدة (UC) — 10.00$',
+        '1800 شدة (UC) — 25.00$',
+        '3850 شدة (UC) — 50.00$'
+      ]
+    };
+
+    function updatePackages() {
+      const select = document.getElementById('packageSelect');
+      select.innerHTML = '';
+      packages[selectedGame].forEach(pkg => {
+        const opt = document.createElement('option');
+        opt.value = pkg;
+        opt.innerText = pkg;
+        select.appendChild(opt);
+      });
+    }
+
+    function selectGame(game) {
+      selectedGame = game;
+      document.getElementById('opt-ff').classList.toggle('active', game === 'Free Fire');
+      document.getElementById('opt-pubg').classList.toggle('active', game === 'PUBG Mobile');
+      updatePackages();
+    }
+
+    // تهيئة الباقات عند الفتح
+    updatePackages();
+
+    // إدارة الطلبات والإشعارات
+    let orders = [];
+
+    function handleOrderSubmit(e) {
+      e.preventDefault();
+
+      const playerId = document.getElementById('playerId').value;
+      const pkg = document.getElementById('packageSelect').value;
+      const customerName = document.getElementById('customerName').value;
+      const fileInput = document.getElementById('receiptImg');
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const newOrder = {
+            id: Date.now(),
+            game: selectedGame,
+            playerId: playerId,
+            package: pkg,
+            customerName: customerName,
+            receiptSrc: event.target.result,
+            status: 'قيد الانتظار ⏳',
+            time: new Date().toLocaleTimeString('ar-EG')
+          };
+
+          orders.unshift(newOrder);
+          renderOrders();
+          document.getElementById('orderForm').reset();
+          alert('تم إرسال طلبك بنجاح! سيتم الشحن فور مراجعة الإيصال.');
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      }
+    }
+
+    function renderOrders() {
+      const container = document.getElementById('ordersContainer');
+      const countBadge = document.getElementById('orderCount');
+      
+      countBadge.innerText = `${orders.length} طلبات`;
+
+      if (orders.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-dim); text-align: center;">لا توجد طلبات حالياً...</p>';
+        return;
+      }
+
+      container.innerHTML = '';
+      orders.forEach(order => {
+        const div = document.createElement('div');
+        div.className = 'order-card';
+        div.innerHTML = `
+          <div class="order-details">
+            <div><strong>السم العميل:</strong> ${order.customerName}</div>
+            <div><strong>اللعبة:</strong> ${order.game}</div>
+            <div>
+              <strong>الـ ID:</strong> <span id="id-${order.id}">${order.playerId}</span>
+              <button class="btn-copy" onclick="copyId('id-${order.id}')">نسخ</button>
+            </div>
+            <div><strong>الباقة:</strong> ${order.package}</div>
+            <div><strong>الوقت:</strong> ${order.time}</div>
+            <div><strong>الحالة:</strong> <span style="color:var(--accent-blue)">${order.status}</span></div>
+          </div>
+          <div>
+            <strong>إيصال الدفع:</strong><br>
+            <img src="${order.receiptSrc}" class="img-preview" onclick="window.open('${order.receiptSrc}')" title="اضغط للتكبير">
+          </div>
+          <div class="actions">
+            <button class="btn-status btn-complete" onclick="updateOrderStatus(${order.id}, 'تم الشحن بنجاح ✅')">تأكيد الشحن ✅</button>
+            <button class="btn-status btn-reject" onclick="updateOrderStatus(${order.id}, 'مرفوض ❌')">رفض الطلب ❌</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function copyId(elementId) {
+      const idText = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(idText);
+      alert('تم نسخ الـ ID بنجاح: ' + idText);
+    }
+
+    function updateOrderStatus(orderId, newStatus) {
+      const order = orders.find(o => o.id === orderId);
+      if (order) {
+        order.status = newStatus;
+        renderOrders();
+      }
+    }
+  </script>
+
+</body>
+</html>
