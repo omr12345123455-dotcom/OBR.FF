@@ -54,10 +54,7 @@
 
     .container {
       width: 100%;
-      max-width: 900px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 30px;
+      max-width: 600px;
     }
 
     .card {
@@ -75,7 +72,6 @@
       padding-bottom: 10px;
     }
 
-    /* اختيار اللعبة */
     .games-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -98,12 +94,6 @@
       box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
     }
 
-    .game-option h3 {
-      margin-top: 10px;
-      font-size: 1.2rem;
-    }
-
-    /* النموذج */
     .form-group {
       margin-bottom: 18px;
     }
@@ -155,95 +145,25 @@
       box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
     }
 
-    /* لوحة الأدمن والإشعارات */
-    .admin-section {
-      margin-top: 40px;
-      border: 2px solid var(--accent-red);
-    }
-
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .badge {
-      background: var(--accent-red);
-      color: white;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-    }
-
-    .order-card {
-      background: #0d0722;
-      border-right: 4px solid var(--accent-blue);
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .order-details {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
-      font-size: 0.95rem;
-    }
-
-    .btn-copy {
-      background: var(--accent-purple);
-      color: white;
-      border: none;
-      padding: 4px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      margin-right: 5px;
-    }
-
-    .img-preview {
-      max-width: 150px;
-      border-radius: 6px;
-      cursor: pointer;
-      border: 1px solid var(--accent-blue);
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .btn-status {
-      padding: 8px 15px;
-      border: none;
-      border-radius: 6px;
+    .status-msg {
+      margin-top: 15px;
+      text-align: center;
       font-weight: bold;
-      cursor: pointer;
+      font-size: 1rem;
     }
-
-    .btn-complete { background: #00e676; color: black; }
-    .btn-reject { background: var(--accent-red); color: white; }
   </style>
 </head>
 <body>
 
   <header>
     <div class="logo">OBR</div>
-    <div class="tagline">متجر شحن جميع الألعاب السريع والموثوق</div>
+    <div class="tagline">متجر شحن الألعاب السريع والموثوق</div>
   </header>
 
   <div class="container">
-    
-    <!-- واجهة الشراء للعملاء -->
     <div class="card">
       <h2>طلب شحن جديد</h2>
 
-      <!-- اختيار اللعبة -->
       <label>1. اختر اللعبة:</label>
       <div class="games-grid">
         <div class="game-option active" id="opt-ff" onclick="selectGame('Free Fire')">
@@ -254,59 +174,43 @@
         </div>
       </div>
 
-      <form id="orderForm" onsubmit="handleOrderSubmit(event)">
-        <!-- معرف اللاعب -->
-        <div class="form-group">
-          <label for="playerId">2. معرف اللاعب (Player ID / UID):</label>
-          <input type="text" id="playerId" placeholder="مثال: 123456789" required>
-        </div>
-
-        <!-- الباقة -->
-        <div class="form-group">
-          <label for="packageSelect">3. اختر الباقة:</label>
-          <select id="packageSelect" required>
-            <!-- يتم التحديث بالسوفتوير -->
-          </select>
-        </div>
-
-        <!-- تعليمات الدفع (شام كاش) -->
-        <div class="payment-info">
-          💳 <strong>طريقة الدفع عبر شام كاش (Sham Cash):</strong><br>
-          يرجى تحويل المبلغ الموضح إلى المعرف/الرقم: <strong style="color:var(--accent-blue)">SHAM-OBR-102030</strong><br>
-          ثم أرفق صورة إشعار التحويل بالأسفل للتأكيد.
-        </div>
-
-        <!-- اسم المشتري ورقم الهاتف -->
+      <form id="orderForm" onsubmit="sendOrderToTelegram(event)">
         <div class="form-group">
           <label for="customerName">اسمك الكامل:</label>
           <input type="text" id="customerName" placeholder="أدخل اسمك" required>
         </div>
 
-        <!-- رفع صورة الإيصال -->
+        <div class="form-group">
+          <label for="playerId">2. معرف اللاعب (Player ID / UID):</label>
+          <input type="text" id="playerId" placeholder="مثال: 123456789" required>
+        </div>
+
+        <div class="form-group">
+          <label for="packageSelect">3. اختر الباقة:</label>
+          <select id="packageSelect" required></select>
+        </div>
+
+        <div class="payment-info">
+          💳 <strong>طريقة الدفع عبر شام كاش (Sham Cash):</strong><br>
+          يرجى تحويل المبلغ الموضح إلى المعرف/الرقم: <strong style="color:var(--accent-blue)">SHAM-OBR-102030</strong><br>
+          ثم أرفق صورة إشعار التحويل بالأسفل لتأكيد الطلب.
+        </div>
+
         <div class="form-group">
           <label for="receiptImg">4. إرفاق صورة إيصال التحويل:</label>
           <input type="file" id="receiptImg" accept="image/*" required>
         </div>
 
-        <button type="submit" class="btn-submit">تأكيد وإرسال الطلب 🚀</button>
+        <button type="submit" class="btn-submit" id="submitBtn">تأكيد وإرسال الطلب 🚀</button>
+        <div class="status-msg" id="statusMsg"></div>
       </form>
     </div>
-
-    <!-- لوحة التحكم والإشعارات (الأدمن) -->
-    <div class="card admin-section">
-      <div class="admin-header">
-        <h2 style="margin:0; border:none;">🔔 لوحة الإشعارات والطلبات (خاصة بك)</h2>
-        <span class="badge" id="orderCount">0 طلبات جديدة</span>
-      </div>
-
-      <div id="ordersContainer">
-        <p style="color: var(--text-dim); text-align: center;">لا توجد طلبات حالياً...</p>
-      </div>
-    </div>
-
   </div>
 
   <script>
+    const TELEGRAM_TOKEN = "8937931148:AAFmbpB_nn3iqNhOPgQOGMzt-pCpSW8MD50";
+    const CHAT_ID = "8322514038";
+
     let selectedGame = 'Free Fire';
 
     const packages = {
@@ -345,95 +249,66 @@
       updatePackages();
     }
 
-    // تهيئة الباقات عند الفتح
     updatePackages();
 
-    // إدارة الطلبات والإشعارات
-    let orders = [];
-
-    function handleOrderSubmit(e) {
+    function sendOrderToTelegram(e) {
       e.preventDefault();
 
+      const submitBtn = document.getElementById('submitBtn');
+      const statusMsg = document.getElementById('statusMsg');
+      const name = document.getElementById('customerName').value;
       const playerId = document.getElementById('playerId').value;
       const pkg = document.getElementById('packageSelect').value;
-      const customerName = document.getElementById('customerName').value;
       const fileInput = document.getElementById('receiptImg');
 
-      if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          const newOrder = {
-            id: Date.now(),
-            game: selectedGame,
-            playerId: playerId,
-            package: pkg,
-            customerName: customerName,
-            receiptSrc: event.target.result,
-            status: 'قيد الانتظار ⏳',
-            time: new Date().toLocaleTimeString('ar-EG')
-          };
-
-          orders.unshift(newOrder);
-          renderOrders();
-          document.getElementById('orderForm').reset();
-          alert('تم إرسال طلبك بنجاح! سيتم الشحن فور مراجعة الإيصال.');
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-      }
-    }
-
-    function renderOrders() {
-      const container = document.getElementById('ordersContainer');
-      const countBadge = document.getElementById('orderCount');
-      
-      countBadge.innerText = `${orders.length} طلبات`;
-
-      if (orders.length === 0) {
-        container.innerHTML = '<p style="color: var(--text-dim); text-align: center;">لا توجد طلبات حالياً...</p>';
+      if (!fileInput.files || !fileInput.files[0]) {
+        alert('يرجى إرفاق صورة إيصال الدفع');
         return;
       }
 
-      container.innerHTML = '';
-      orders.forEach(order => {
-        const div = document.createElement('div');
-        div.className = 'order-card';
-        div.innerHTML = `
-          <div class="order-details">
-            <div><strong>السم العميل:</strong> ${order.customerName}</div>
-            <div><strong>اللعبة:</strong> ${order.game}</div>
-            <div>
-              <strong>الـ ID:</strong> <span id="id-${order.id}">${order.playerId}</span>
-              <button class="btn-copy" onclick="copyId('id-${order.id}')">نسخ</button>
-            </div>
-            <div><strong>الباقة:</strong> ${order.package}</div>
-            <div><strong>الوقت:</strong> ${order.time}</div>
-            <div><strong>الحالة:</strong> <span style="color:var(--accent-blue)">${order.status}</span></div>
-          </div>
-          <div>
-            <strong>إيصال الدفع:</strong><br>
-            <img src="${order.receiptSrc}" class="img-preview" onclick="window.open('${order.receiptSrc}')" title="اضغط للتكبير">
-          </div>
-          <div class="actions">
-            <button class="btn-status btn-complete" onclick="updateOrderStatus(${order.id}, 'تم الشحن بنجاح ✅')">تأكيد الشحن ✅</button>
-            <button class="btn-status btn-reject" onclick="updateOrderStatus(${order.id}, 'مرفوض ❌')">رفض الطلب ❌</button>
-          </div>
-        `;
-        container.appendChild(div);
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'جاري إرسال الطلب... ⏳';
+      statusMsg.style.color = '#00f3ff';
+      statusMsg.innerText = 'جاري المعالجة...';
+
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append('chat_id', CHAT_ID);
+      formData.append('photo', file);
+
+      const captionText = `🎮 طلب شحن جديد - متجر OBR\n\n` +
+                          `👤 الاسم: ${name}\n` +
+                          `🕹️ اللعبة: ${selectedGame}\n` +
+                          `🆔 الـ ID: ${playerId}\n` +
+                          `💎 الباقة: ${pkg}\n` +
+                          `⏰ الوقت: ${new Date().toLocaleTimeString('ar-EG')}`;
+
+      formData.append('caption', captionText);
+
+      fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendPhoto`, {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          statusMsg.style.color = '#00e676';
+          statusMsg.innerHTML = '✅ تم إرسال طلبك بنجاح! سيتم الشحن للحساب فوراً.';
+          document.getElementById('orderForm').reset();
+          updatePackages();
+        } else {
+          statusMsg.style.color = '#ff0055';
+          statusMsg.innerText = '❌ فشل الإرسال: ' + (data.description || 'تأكد من الضغط على Start داخل محادثة البوت.');
+        }
+      })
+      .catch(() => {
+        statusMsg.style.color = '#ff0055';
+        statusMsg.innerText = '❌ حدث خطأ في الاتصال، حاول مجدداً.';
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'تأكيد وإرسال الطلب 🚀';
       });
-    }
-
-    function copyId(elementId) {
-      const idText = document.getElementById(elementId).innerText;
-      navigator.clipboard.writeText(idText);
-      alert('تم نسخ الـ ID بنجاح: ' + idText);
-    }
-
-    function updateOrderStatus(orderId, newStatus) {
-      const order = orders.find(o => o.id === orderId);
-      if (order) {
-        order.status = newStatus;
-        renderOrders();
-      }
     }
   </script>
 
